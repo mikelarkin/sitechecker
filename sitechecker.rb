@@ -7,7 +7,7 @@
 
 require 'net/http'
 require 'net/smtp'
-require 'uri' 
+require 'uri'
 
 ############### Settings ###############
 
@@ -15,7 +15,7 @@ SITES = %w{www.fetchapp.com www.synctobase.com www.pixallent.com www.stealthpubl
 FROM_EMAIL = "Pixallent Pinger <no-reply@pixallent.com>"
 TO_EMAIL =  "Pixallent Support <help@pixallent.com>"
 SMTP_SERVER = "localhost"
-        
+
 SITES.each do |site|
   url = URI.parse("http://#{site}/")
   begin
@@ -36,7 +36,8 @@ SITES.each do |site|
     end
   rescue => e
     # Invalid
-    puts "--Error checking #{site}--\n#{e.message}" 
+    puts "--Cannot reach #{site}, sending email--"
+    send_email(FROM_EMAIL, TO_EMAIL, "#{site} is DOWN", "Message: #{e.message}\n\nStatus: #{res.code}\n\n #{res.body}")
   end
 
 end
