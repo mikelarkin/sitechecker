@@ -11,11 +11,11 @@ require 'uri'
 
 ############### Settings ###############
 
-SITES = %w{www.fetchapp.com www.synctobase.com www.pixallent.com www.fetcharp.com www.stealthpublisher.com}
+SITES = %w{www.fetchapp.com www.synctobase.com www.pixallent.com}
 FROM_EMAIL = "Pixallent SiteChecker <no-reply@pixallent.com>"
-TO_EMAIL =  "Pixallent Support <mikelarkin@pixallent.com>"
+TO_EMAIL =  "Pixallent Support <help@pixallent.com>"
 SMTP_SERVER = "localhost"
-FOLLOW_REDIRECTS = true # Setting this to false means that you need to type the exact URL in   
+FOLLOW_REDIRECTS = false # Setting this to false means that you need to type the exact URL in   
 
 ############### Mail Helper ###############
 
