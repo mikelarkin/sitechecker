@@ -12,9 +12,30 @@ require 'uri'
 ############### Settings ###############
 
 SITES = %w{www.fetchapp.com www.synctobase.com www.pixallent.com www.stealthpublisher.com http://fetarp.com}
-FROM_EMAIL = "Pixallent Pinger <no-reply@pixallent.com>"
-TO_EMAIL =  "Pixallent Support <help@pixallent.com>"
-SMTP_SERVER = "localhost"
+FROM_EMAIL = "no-reply@pixallent.com"
+TO_EMAIL =  "mikelarkin@pixallent.com"
+SMTP_SERVER = "localhost"   
+
+############### Mail Helper ###############
+
+def send_email(from, to, subject, message) 
+	puts "Sending....."
+	
+  msg = <<END_OF_MESSAGE
+  From: #{from}
+  To: #{to}
+  Subject: #{subject}
+
+  #{message}
+END_OF_MESSAGE
+              
+puts msg
+  Net::SMTP.start(SMTP_SERVER) do |smtp|
+    smtp.send_message msg, from, to
+  end
+end    
+
+############### Check Sites ###############
 
 SITES.each do |site|
   url = URI.parse("http://#{site}/")
@@ -37,24 +58,7 @@ SITES.each do |site|
   rescue => e
     # Invalid
     puts "--Cannot reach #{site}, sending email--"
-    send_email(FROM_EMAIL, TO_EMAIL, "#{site} is DOWN", "Message: #{e.message}\n\nStatus: #{res.code}\n\n #{res.body}")
+    send_email(FROM_EMAIL, TO_EMAIL, "#{site} is DOWN", "Message: #{e.message}")
   end
 
-end
-
-
-############### Mail Helper ###############
-
-def send_email(from, to, subject, message)
-  msg = <<END_OF_MESSAGE
-  From: #{from_alias} <#{from}>
-  To: #{to_alias} <#{to}>
-  Subject: #{subject}
-
-  #{message}
-END_OF_MESSAGE
-
-  Net::SMTP.start(SMTP_SERVER_IP) do |smtp|
-    smtp.send_message msg, from, to
-  end
 end
