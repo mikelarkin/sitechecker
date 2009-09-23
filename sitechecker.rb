@@ -11,7 +11,7 @@ require 'uri'
 
 ############### Settings ###############
 
-SITES = %w{www.fetchapp.com www.synctobase.com www.pixallent.com www.stealthpublisher.com http://fetarp.com}
+SITES = %w{www.fetchapp.com www.synctobase.com www.pixallent.com www.stealthpublisher.com www.fetarp.com ssd.com}
 FROM_EMAIL = "no-reply@pixallent.com"
 TO_EMAIL =  "mikelarkin@pixallent.com"
 SMTP_SERVER = "localhost"   
@@ -29,7 +29,6 @@ def send_email(from, to, subject, message)
   #{message}
 END_OF_MESSAGE
               
-puts msg
   Net::SMTP.start(SMTP_SERVER) do |smtp|
     smtp.send_message msg, from, to
   end
