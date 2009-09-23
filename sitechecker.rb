@@ -11,11 +11,11 @@ require 'uri'
 
 ############### Settings ###############
 
-SITES = %w{www.fetchapp.com www.synctobase.com www.pixallent.com www.stealthpublisher.com}
+SITES = %w{www.fetchapp.com www.synctobase.com www.pixallent.com www.fetcharp.com www.stealthpublisher.com}
 FROM_EMAIL = "Pixallent SiteChecker <no-reply@pixallent.com>"
-TO_EMAIL =  "Pixallent Support <help@pixallent.com>"
+TO_EMAIL =  "Pixallent Support <mikelarkin@pixallent.com>"
 SMTP_SERVER = "localhost"
-FOLLOW_REDIRECTS = true   
+FOLLOW_REDIRECTS = true # Setting this to false means that you need to type the exact URL in   
 
 ############### Mail Helper ###############
 
@@ -40,12 +40,13 @@ end
 SITES.each do |site|
   url = URI.parse("http://#{site}/")
   begin
-  	 found = !FOLLOW_REDIRECTS # Consider the initial request "found" if we're not following redirects
+  	 found = false
     until found
       host, port = url.host, url.port if url.host && url.port
       req = Net::HTTP::Get.new(url.path)
       res = Net::HTTP.start(url.host, url.port) {|http|  http.request(req) }
       res.header['location'] ? url = URI.parse(res.header['location']) : found = true
+		found = true if !FOLLOW_REDIRECTS # Consider the initial request "found" if we're not following redirects
     end    
     # Make sure the code is in the 200 range
     unless res.code.to_i >= 200 && res.code.to_i < 300
