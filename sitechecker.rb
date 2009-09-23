@@ -20,15 +20,15 @@ SMTP_SERVER = "localhost"
 
 def send_email(from, to, subject, message) 
 	puts "Sending....."
-	
-  msg = <<END_OF_MESSAGE
-  From: #{from}
-  To: #{to}
-  Subject: #{subject}
 
-  #{message}
+	msg = <<END_OF_MESSAGE
+From: #{from}
+To: #{to}
+Subject: #{subject}
+	
+#{message}
 END_OF_MESSAGE
-              
+	              
   Net::SMTP.start(SMTP_SERVER) do |smtp|
     smtp.send_message msg, from, to
   end
