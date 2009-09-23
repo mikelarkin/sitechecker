@@ -20,8 +20,6 @@ FOLLOW_REDIRECTS = false # Setting this to false means that you need to type the
 ############### Mail Helper ###############
 
 def send_email(from, to, subject, message) 
-	puts "Sending....."
-
 	msg = <<END_OF_MESSAGE
 From: #{from}
 To: #{to}
