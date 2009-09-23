@@ -1,26 +1,21 @@
+############### Site Checker ###############
+#  A simple Ruby script that checks a url for a 2xx status code. Follows redirects as well.
+#  Change the settings as desired and invoke using "ruby site_checker.rb"
+#
+# Copyright 2009 Mike Larkin, Pixallent LTD.
+###########################################
+
 require 'net/http'
 require 'net/smtp'
 require 'uri' 
+
+############### Settings ###############
 
 SITES = %w{www.fetchapp.com www.synctobase.com www.pixallent.com www.stealthpublisher.com http://fetarp.com}
 FROM_EMAIL = "Pixallent Pinger <no-reply@pixallent.com>"
 TO_EMAIL =  "Pixallent Support <help@pixallent.com>"
 SMTP_SERVER = "localhost"
-
-def send_email(from, to, subject, message)
-  msg = <<END_OF_MESSAGE
-  From: #{from_alias} <#{from}>
-  To: #{to_alias} <#{to}>
-  Subject: #{subject}
-
-  #{message}
-END_OF_MESSAGE
-
-  Net::SMTP.start(SMTP_SERVER_IP) do |smtp|
-    smtp.send_message msg, from, to
-  end
-end
-
+        
 SITES.each do |site|
   url = URI.parse("http://#{site}/")
   begin
@@ -44,4 +39,21 @@ SITES.each do |site|
     puts "--Error checking #{site}--\n#{e.message}" 
   end
 
+end
+
+
+############### Mail Helper ###############
+
+def send_email(from, to, subject, message)
+  msg = <<END_OF_MESSAGE
+  From: #{from_alias} <#{from}>
+  To: #{to_alias} <#{to}>
+  Subject: #{subject}
+
+  #{message}
+END_OF_MESSAGE
+
+  Net::SMTP.start(SMTP_SERVER_IP) do |smtp|
+    smtp.send_message msg, from, to
+  end
 end
