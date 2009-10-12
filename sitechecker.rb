@@ -13,7 +13,7 @@ require 'uri'
 
 SITES = %w{www.fetchapp.com www.synctobase.com www.pixallent.com}
 FROM_EMAIL = "Pixallent Site Checker <no-reply@pixallent.com>"
-TO_EMAIL =  "Pixallent Support <mikelarkin@pixallent.com>"
+TO_EMAIL =  "Pixallent Support <help@pixallent.com>"
 SMTP_SERVER = "localhost"
 
 # true - will follow all redirects regardless of domain
@@ -49,8 +49,7 @@ SITES.each do |site|
     until found
       host, port = url.host, url.port if url.host && url.port
       req = Net::HTTP::Get.new(url.path)
-      res = Net::HTTP.start(url.host, url.port) {|http|  http.request(req) }
-		puts "XXXXXXXX #{url.host} | #{res.code}" 
+      res = Net::HTTP.start(url.host, url.port) {|http|  http.request(req) } 
       res.header['location'] ? url = URI.parse(res.header['location']) : found = true
 
 		found = true if FOLLOW_REDIRECTS == false # Consider the initial request "found" if we're not following redirects
