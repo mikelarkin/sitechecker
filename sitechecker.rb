@@ -21,7 +21,7 @@ DEBUG = false
 
 # true - will follow all redirects regardless of domain
 # false	- will raise error if redirected
-FOLLOW_REDIRECTS = true
+FOLLOW_REDIRECTS = false
 
 # true - will allow a 503 (typical maintenance status code)
 # false	- will raise error if exact address does not return 2xx
@@ -44,7 +44,7 @@ def send_up_alert(site, response)
     # Site was down, is now up
     puts "--#{site} was down, is now back up, sending email" if DEBUG
     File.delete("status/#{site}")
-    send_email(FROM_EMAIL, TO_EMAIL, "#{site} is UP", "Status: #{response.code}\n\n #{response.body}")
+    send_email(FROM_EMAIL, TO_EMAIL, "#{site} is UP", "Status: #{response.code if response}\n\n #{response.body if response}")
   end
 end
 
