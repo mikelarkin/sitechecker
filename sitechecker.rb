@@ -13,9 +13,9 @@ require 'uri'
 
 ############### Settings ###############
 
-SITES = %w{www.stealthpublisher.net}
-FROM_EMAIL = "Pixellent Site Checker <no-reply@pixellent.com>"
-TO_EMAIL =  "Pixellent Support <mikelarkin@pixellent.com>"
+SITES = %w{www.pixellent.com www.fetchapp.com}
+FROM_EMAIL = "Pixellent Site Checker <mikelarkin@pixellent.com>"
+TO_EMAIL =  "Pixellent Support <help@pixellent.com>"
 SMTP_SERVER = "localhost"
 DEBUG = false
 
@@ -30,7 +30,7 @@ ALLOW_503 = true
 ############### Mail Helper ###############
 
 def send_email(from, to, subject, message)
-  msg = "From: #{from}\nTo: #{to}\nSubject: #{subject}\n#{message}"
+  msg = "From: #{from}\nTo: #{to}\nSubject: #{subject}\n\n#{message}"
 
   Net::SMTP.start(SMTP_SERVER) do |smtp|
     smtp.send_message msg, from, to
