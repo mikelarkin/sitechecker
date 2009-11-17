@@ -44,7 +44,7 @@ def send_up_alert(site, response)
     # Site was down, is now up
     puts "--#{site} was down, is now back up, sending email" if DEBUG
     File.delete("status/#{site}")
-    send_email(FROM_EMAIL, TO_EMAIL, "#{site} is UP", "Status: #{response.code if response}\n\n #{response.body if response}")
+    send_email(FROM_EMAIL, TO_EMAIL, "UP: #{site}", "Status: #{response.code if response}\n\n #{response.body if response}")
   end
 end
 
@@ -53,7 +53,7 @@ def send_down_alert(site, response)
     puts "--Cannot reach #{site}, sending email" if DEBUG
 	 FileUtils.mkdir("status")
     FileUtils.touch("status/#{site}")
-    send_email(FROM_EMAIL, TO_EMAIL, "#{site} is DOWN", "Status: #{response.code if response}\n\n #{response.body if response}")
+    send_email(FROM_EMAIL, TO_EMAIL, "DOWN: #{site}", "Status: #{response.code if response}\n\n #{response.body if response}")
   end
 end
 
