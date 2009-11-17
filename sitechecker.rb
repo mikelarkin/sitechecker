@@ -7,6 +7,7 @@
 
 require 'net/http'
 require 'net/smtp'
+require 'fileutils'
 require 'uri'
 
 
@@ -50,8 +51,9 @@ end
 def send_down_alert(site, response)
   if !File.exist?("status/#{site}")
     puts "--Cannot reach #{site}, sending email" if DEBUG
-    File.new("status/#{site}", "w")
-    send_email(FROM_EMAIL, TO_EMAIL, "#{site} is DOWN", "Status: #{response.code}\n\n #{response.body}")
+	 FileUtils.mkdir("status")
+    FileUtils.touch("status/#{site}")
+    send_email(FROM_EMAIL, TO_EMAIL, "#{site} is DOWN", "Status: #{response.code if response}\n\n #{response.body if response}")
   end
 end
 
